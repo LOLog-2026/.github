@@ -26,7 +26,7 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 
 ## 아키텍처
 
-![LOLog 아키텍처](./lolog-architecture.png)
+![LOLog 아키텍처](./lolog-architecture_v5.png)
 
 | 구역 | 하는 일 | 기술 |
 | --- | --- | --- |
