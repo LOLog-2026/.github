@@ -28,7 +28,7 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 
 ## 아키텍처
 
-![LOLog 아키텍처](./lolog-architecture_v7.png)
+![LOLog 아키텍처](./lolog-architecture_v6.png)
 
 지난 버전은 [architecture](./architecture/) 폴더에 모아 두었습니다.
 
