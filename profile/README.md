@@ -45,18 +45,17 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 
 ## 아키텍처
 
-![LOLog 아키텍처](./lolog-architecture_v7.png)
+![LOLog 아키텍처](./lolog-architecture_v8.png)
 
-지난 버전은 [architecture](./architecture/) 폴더에 모아 두었습니다.
+지난 버전(`lolog-architecture_v*.png`)도 이 폴더에 함께 있습니다.
 
 | 구역 | 하는 일 | 기술 |
 | --- | --- | --- |
 | 📱 앱 | 녹음, 폰 안에서 실시간 음성 인식, 음성 저장(선택), 에피소드·만화·쇼츠·친구·방·알림함·관리자 화면 | Android(Kotlin, Jetpack Compose), sherpa-onnx + SenseVoice-Small, Silero VAD |
 | 🏫 서비스 서버 | 로그인, 메인 백엔드, 작업 큐, 저장소 | Nginx, Spring Boot, Redis Streams, PostgreSQL, MinIO, Docker Compose |
-| 🟩 Jetson 1호 | 이야기 찾기, 화자 구분, 만화·영상 콘티를 짜는 LLM | NVIDIA Jetson, llama.cpp + Qwen3-4B |
-| 🟩 Jetson 2호 | 4컷만화 그리기, 쇼츠 장면 그림·영상 합치기, 사진으로 프로필 캐릭터 만들기 | NVIDIA Jetson, FLUX.2 klein + LoRA, ffmpeg |
-| 🟩 Jetson 3호 | 쇼츠 대사를 화자 목소리로 읽기 | NVIDIA Jetson, Qwen3-TTS |
-| 🧪 학습 서버 | 그림 모델 LoRA 학습 | PyTorch |
+| 🟩 Jetson 1호 | 이야기 찾기, 화자 구분, 만화·영상 콘티를 짜는 LLM | NVIDIA Jetson, llama.cpp + Qwen3.5-4B |
+| 🟩 Jetson 2호 | 4컷만화 그리기, 쇼츠 장면 그림·립싱크·효과음과 배경음 섞기·영상 합치기, 사진으로 프로필 캐릭터 만들기 | NVIDIA Jetson, FLUX.2 klein(학습 없이 원본), MediaPipe, ffmpeg |
+| 🟩 Jetson 3호 | 쇼츠 대사를 화자 목소리나 내 목소리로 읽기 | NVIDIA Jetson, Qwen3-TTS |
 
 ### 작업 흐름
 
@@ -64,9 +63,9 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 
 | 큐 | 꺼내 가는 곳 | 작업 |
 | --- | --- | --- |
-| `lolog:detect` | Jetson 1호 | 대화 텍스트 묶음에서 이야기 찾기 → 화자 구분 → 이야기 카드 |
+| `lolog:detect` | Jetson 1호 | 대화 텍스트 묶음(직접 쓴 글은 `kind: text`)에서 이야기 찾기 → 화자 구분 → 이야기 카드 |
 | `lolog:comic` | Jetson 2호 | 4컷만화, 쇼츠 그림 단계(`kind: video`), 프로필 캐릭터(`kind: avatar`) |
-| `lolog:video` | Jetson 3호 | 쇼츠 목소리 단계: 영상 콘티 → 대사 TTS → 음성 트랙 |
+| `lolog:video` | Jetson 3호 | 쇼츠 목소리 단계: 영상 콘티 → 대사 TTS → 음성 트랙, 내 목소리 등록(`kind: voice_clone`) |
 
 쇼츠 영상은 두 대를 차례로 거칩니다. 3호가 목소리를 만들어 메인 백엔드에 올리면, 메인 백엔드가 그림 단계를 2호 큐에 넣습니다. Jetson끼리는 Tailscale로 이어져 있어 2호와 3호도 1호의 LLM으로 콘티를 짭니다.
 
