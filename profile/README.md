@@ -101,7 +101,7 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 
 ![LOLog ERD](./lolog-erd.png)
 
-이 그림은 간략화한 ERD입니다. lolog-api Flyway V1~V19와 lolog-auth V1~V4의 표 33개를 모두 그렸지만, 표마다 키(PK·FK·유니크)와 주요 열만 넣었고 일부 열은 한 줄로 합쳤습니다(예: `age_group · gender`). 모든 열과 제약은 [LOLog-docs spec/db.md](https://github.com/LOLog-2026/LOLog-docs/blob/main/spec/db.md)에 있습니다.
+이 그림은 간략화한 ERD입니다. lolog-api Flyway V1\~V19와 lolog-auth V1\~V4의 표 33개를 모두 그렸지만, 표마다 키(PK·FK·유니크)와 주요 열만 넣었고 일부 열은 한 줄로 합쳤습니다(예: `age_group · gender`). 모든 열과 제약은 [LOLog-docs spec/db.md](https://github.com/LOLog-2026/LOLog-docs/blob/main/spec/db.md)에 있습니다.
 
 ## 레포
 
