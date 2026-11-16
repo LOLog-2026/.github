@@ -55,6 +55,18 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 | 🛠️ 관리자 | 관리자 계정으로 공지 쓰기, 신고 확인, 사용자 정지·탈퇴 |
 | 🔐 계정 | 이메일 가입(인증번호 메일), 구글·네이버 로그인, 비밀번호 찾기·바꾸기, 탈퇴 |
 
+## 앱 릴리스
+
+Android 앱은 [LOLog-app 릴리스](https://github.com/LOLog-2026/LOLog-app/releases)에서 버전마다 APK(`lolog.apk`)로 내려받을 수 있습니다.
+📦 **최신 버전: [lolog.apk 바로 내려받기](https://github.com/LOLog-2026/LOLog-app/releases/latest/download/lolog.apk)** · 이전 버전을 쓰고 있다면 지우지 않고 덮어 설치하면 됩니다.
+
+| 버전 | 날짜 | 바뀐 점 |
+| --- | --- | --- |
+| [v0.2.2](https://github.com/LOLog-2026/LOLog-app/releases/tag/v0.2.2) | 2026-11-16 | 친구방 위 탭을 4컷 · 대화 두 개로 정리 |
+| [v0.2.1](https://github.com/LOLog-2026/LOLog-app/releases/tag/v0.2.1) | 2026-11-14 | 글로 만들기에서 키보드가 본문을 가리지 않게 수정 |
+| [v0.2.0](https://github.com/LOLog-2026/LOLog-app/releases/tag/v0.2.0) | 2026-11-14 | 내 목소리, 블로그 플랫폼별 연결(카테고리 3개까지), 컨텐츠 화면 2열·쪽 번호, 오픈소스 라이선스 화면 |
+| [v0.1.0](https://github.com/LOLog-2026/LOLog-app/releases/tag/v0.1.0) | 2026-11-13 | 첫 공개 버전: 녹음 → 에피소드, 4컷만화·쇼츠, 글·블로그로 만들기, 친구·방 |
+
 ## 아키텍처
 
 ![LOLog 아키텍처](./lolog-architecture_v9.png)
