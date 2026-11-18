@@ -7,7 +7,7 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 
 🌐 **서비스 페이지: [lolog.java21.net](https://lolog.java21.net)** · 기능 소개와 Android 앱(APK) 내려받기
 
-**서비스 소개 숏츠 영상: [https://youtube.com/shorts/Iz_HE9hed28?si=Wv5b6vQSO08YirL8]**
+🎬 **서비스 소개 숏츠 영상: [유튜브에서 보기](https://youtube.com/shorts/Iz_HE9hed28?si=Wv5b6vQSO08YirL8)**
 
 📽️ **발표 자료: [발표자료 v4 (pptx)](https://github.com/LOLog-2026/.github/blob/main/profile/LOLog-presentation-v4.pptx) · [발표 영상 (mp4, 5분 35초)](https://github.com/LOLog-2026/.github/blob/main/profile/LOLog-presentation.mp4)**
 
