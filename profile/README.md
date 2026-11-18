@@ -6,7 +6,7 @@
 LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 카드로 모으고, 고른 카드를 4컷만화와 쇼츠 영상으로 만들어 줍니다.
 
 🌐 **서비스 페이지: [lolog.java21.net](https://lolog.java21.net)** · 기능 소개와 Android 앱(APK) 내려받기
-
+**서비스 소개 숏츠 영상: [https://youtube.com/shorts/Iz_HE9hed28?si=Wv5b6vQSO08YirL8] (https://youtube.com/shorts/Iz_HE9hed28?si=Wv5b6vQSO08YirL8)**
 ## 프로젝트 개요
 
 - **배경**
