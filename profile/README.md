@@ -62,7 +62,7 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 ## 앱 릴리스
 
 Android 앱은 [LOLog-app 릴리스](https://github.com/LOLog-2026/LOLog-app/releases)에서 버전마다 APK(`lolog.apk`)로 내려받을 수 있습니다.
-📦 **최신 버전: [lolog.apk 바로 내려받기](https://github.com/LOLog-2026/LOLog-app/releases/latest/download/lolog.apk)** · 이전 버전을 쓰고 있다면 지우지 않고 덮어 설치하면 됩니다.
+이전 버전을 쓰고 있다면 지우지 않고 덮어 설치하면 됩니다.
 
 | 버전 | 날짜 | 바뀐 점 |
 | --- | --- | --- |
