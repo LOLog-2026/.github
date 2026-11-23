@@ -47,6 +47,12 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 | 🟩 Jetson 2호 | 4컷만화 그리기, 쇼츠 장면 그림·립싱크·효과음과 배경음 섞기·영상 합치기, 사진으로 프로필 캐릭터 만들기 | NVIDIA Jetson, FLUX.2 klein(학습 없이 원본), MediaPipe, ffmpeg |
 | 🟩 Jetson 3호 | 쇼츠 대사를 화자 목소리나 내 목소리로 읽기 | NVIDIA Jetson, Qwen3-TTS |
 
+### ERD
+
+![LOLog ERD](./lolog-erd.png)
+
+이 그림은 간략화한 ERD입니다. lolog-api Flyway V1\~V19와 lolog-auth V1\~V4의 표 33개를 모두 그렸지만, 표마다 키(PK·FK·유니크)와 주요 열만 넣었고 일부 열은 한 줄로 합쳤습니다(예: `age_group · gender`). 모든 열과 제약은 [LOLog-docs spec/db.md](https://github.com/LOLog-2026/LOLog-docs/blob/main/spec/db.md)에 있습니다.
+
 ### 작업 흐름
 
 메인 백엔드는 무거운 AI 작업을 직접 하지 않고 Redis Streams 큐에 넣어 두고, 각 Jetson의 워커가 SSH 터널로 꺼내 가서 처리한 뒤 결과를 `/internal` API로 돌려줍니다.
@@ -74,12 +80,6 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 - 서비스 서버: 학교 Nginx(HTTPS) 뒤에 우리 nginx 컨테이너를 두고 `/auth`, `/api`, 그림 주소로 나눕니다. `/internal`은 밖에서 막습니다.
 - api · auth: main에 머지하면 GitHub Actions가 테스트하고 GHCR 이미지를 만든 뒤 서버의 `deploy.sh`로 바꿔 띄웁니다. 실패하면 이전 이미지로 되돌립니다.
 - Jetson: systemd로 터널, LLM 서버, 워커를 띄우고 코드는 `git pull`로 받습니다.
-
-## ERD
-
-![LOLog ERD](./lolog-erd.png)
-
-이 그림은 간략화한 ERD입니다. lolog-api Flyway V1\~V19와 lolog-auth V1\~V4의 표 33개를 모두 그렸지만, 표마다 키(PK·FK·유니크)와 주요 열만 넣었고 일부 열은 한 줄로 합쳤습니다(예: `age_group · gender`). 모든 열과 제약은 [LOLog-docs spec/db.md](https://github.com/LOLog-2026/LOLog-docs/blob/main/spec/db.md)에 있습니다.
 
 ## 주요 기능
 
