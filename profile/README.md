@@ -65,6 +65,15 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 
 쇼츠 영상은 두 대를 차례로 거칩니다. 3호가 목소리를 만들어 메인 백엔드에 올리면, 메인 백엔드가 그림 단계를 2호 큐에 넣습니다. Jetson끼리는 Tailscale로 이어져 있어 2호와 3호도 1호의 LLM으로 콘티를 짭니다.
 
+### Jetson 3대로 나눈 이유
+
+AI 모델은 모두 NVIDIA Jetson Orin Nano 8GB 3대에서 직접 돌립니다. FLUX로 4컷을 그릴 때 RAM을 7.2GB 쓰기 때문에, 모델을 한 대에서 번갈아 올리지 않고 **한 대에 큰 모델 하나씩** 역할을 나눴습니다(1호 LLM, 2호 그림, 3호 TTS).
+
+- FLUX는 텍스트 인코더와 이미지 모델을 같이 올릴 메모리가 없어 차례로 올렸다 내리고, nf4 양자화 결과는 처음 한 번만 만들어 디스크에 둡니다.
+- 참조 그림은 384px로 줄여 넣습니다. 512px와 눈으로 차이가 없고 컷당 시간이 줄어듭니다.
+- 감지 LLM에는 시간 대신 줄 번호만 넣고, 화자 나누기 출력은 GBNF 문법으로 공백 없는 JSON을 내게 해 출력 토큰을 약 26% 줄였습니다. n-gram 추측 디코딩도 씁니다.
+- 긴 녹음은 8분 창을 3분씩 겹쳐 나눠 감지합니다. 한 번에 넣으면 가운데 이야기를 놓쳤습니다.
+
 ### 개인정보와 보안
 
 - 대화 텍스트를 외부 AI 서비스로 보내지 않고, 우리 Jetson에서 직접 돌리는 LLM과 TTS로 처리합니다.
@@ -73,13 +82,45 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 - 프로필 캐릭터를 만든 사진은 그림을 만든 뒤 지웁니다.
 - 내 목소리 녹음 원본은 내 목소리를 만드는 데만 쓰고 다른 사람에게 공개하지 않으며, 내 목소리를 지우거나 탈퇴하면 같이 지웁니다.
 - 게이트웨이 없이 각 서비스가 JWT를 직접 검사하고, 정지·탈퇴한 사용자는 Redis 표시로 바로 막습니다.
+- 리프레시 토큰은 SHA-256 해시로만 저장하고, 비밀번호는 BCrypt로 저장합니다. 로그인·가입 경로는 Nginx에서 횟수를 제한합니다.
+- Jetson과 서버는 SSH 터널로만 이어지고, 터널 키로는 셸을 열 수 없습니다. Redis와 `/internal` API는 서버 안(127.0.0.1)에만 열려 있습니다.
+- 백엔드 로그에는 예외 메시지를 지워 대화 글이 남지 않게 하고(`SafeLog`), 앱 배포판은 HTTP 로그를 끕니다. 푸시 문구에도 대사를 넣지 않습니다.
 - 완료 알림은 FCM 푸시로 보냅니다.
+
+### 안정성
+
+- 워커는 일시적인 실패를 3번까지 다시 시도하고, 실패 횟수를 Redis에 둬서 워커가 다시 켜져도 이어서 셉니다. 10분 넘게 멈춘 작업은 다른 워커가 다시 가져갑니다.
+- LLM이 이야기 하나에서 실패하면 그 이야기만 버리고 나머지 카드는 살립니다.
+- 배포 후 2분 안에 헬스체크가 실패하면 이전 이미지로 자동으로 되돌리고, 동시에 두 배포가 돌지 않게 막습니다.
+- Jetson의 SSH 터널은 autossh와 systemd로 끊기면 다시 붙습니다.
 
 ### 배포
 
 - 서비스 서버: 학교 Nginx(HTTPS) 뒤에 우리 nginx 컨테이너를 두고 `/auth`, `/api`, 그림 주소로 나눕니다. `/internal`은 밖에서 막습니다.
 - api · auth: main에 머지하면 GitHub Actions가 테스트하고 GHCR 이미지를 만든 뒤 서버의 `deploy.sh`로 바꿔 띄웁니다. 실패하면 이전 이미지로 되돌립니다.
 - Jetson: systemd로 터널, LLM 서버, 워커를 띄우고 코드는 `git pull`로 받습니다.
+
+## 기술 스택
+
+| 영역 | 기술 |
+| --- | --- |
+| 앱 | Android(Kotlin), Jetpack Compose, Material 3, Retrofit + OkHttp, Coroutines, Coil, Firebase Messaging, 구글·네이버 로그인 |
+| 폰 STT | sherpa-onnx + SenseVoice-Small, Silero VAD |
+| 백엔드 · 인증 | Java 21, Spring Boot, Spring Security(JWT), Spring Data JPA, JdbcTemplate, Flyway, Redis |
+| DB · 큐 · 저장소 | PostgreSQL, Redis Streams, MinIO(S3 호환) |
+| AI 워커 | Python, uv, PyTorch, diffusers + bitsandbytes, transformers, onnxruntime, MediaPipe, OpenCV, ffmpeg |
+| AI 모델 | Qwen3.5-4B(llama.cpp), FLUX.2 klein 4B, Qwen3-TTS |
+| 하드웨어 | NVIDIA Jetson Orin Nano 8GB × 3, Tailscale |
+| 인프라 | Docker Compose, Nginx, GitHub Actions + GHCR, systemd, autossh |
+| 테스트 | JUnit + Testcontainers, pytest |
+
+## 설계 원칙
+
+- **모델은 학습하지 않습니다.** FLUX는 LoRA 없이 원본을 쓰고, 그림체는 프롬프트와 참조 그림으로 맞춥니다. LLM도 프롬프트와 모델 선택으로 맞춥니다.
+- **그림 모델은 글자 없이 그리고, 말풍선과 한글 대사는 코드가 넣습니다.** 그림 모델이 한글을 제대로 쓰지 못하기 때문입니다.
+- **모든 결정은 실험으로 합니다.** 폰 STT 모델(9차, 235번 실행), 감지 LLM, FLUX 양자화, TTS, 립싱크(16회차)를 실험 폴더에 기록하고 수치로 골랐습니다.
+- **명세를 먼저 정합니다.** LOLog-docs에 요구사항·기능 명세·API·DB를 먼저 정하고, 코드 주석에 근거 명세 번호를 적습니다.
+- **LLM 출력을 그대로 믿지 않습니다.** JSON 스키마와 문법으로 출력 형식을 강제하고, 줄 번호·화자·대사 길이를 코드로 다시 검사합니다.
 
 ## 주요 기능
 
