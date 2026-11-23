@@ -29,9 +29,9 @@ LOLog는 대화를 기록해 두었다가 기록할 만한 이야기를 찾아 �
 
 | | 이름 | 역할 | 맡은 일 |
 | --- | --- | --- | --- |
-| <img src="https://github.com/chaeminju.png" width="64" alt="chaeminju"> | **민주**<br>[@chaeminju](https://github.com/chaeminju) | AI · 인프라 | 서버 AI 워커 전체([LOLog-ai](https://github.com/LOLog-2026/LOLog-ai)): 이야기 감지 LLM(Qwen3.5-4B) 프롬프트·평가 세트와 화자 구분, 4컷만화 콘티·그림(FLUX.2 klein)·얼굴 찾기·말풍선 합성, 쇼츠 영상 콘티·립싱크·눈 깜빡임, 대사 TTS(Qwen3-TTS) 기본 화자 24명 목소리와 내 목소리 클로닝, 사진으로 만드는 프로필 캐릭터<br>폰 안 STT 모델 비교 실험(1~9차), Jetson 3대의 워커·LLM 서버·SSH 터널 systemd 배포, 서비스 서버 Docker Compose·Nginx 구성 |
-| <img src="https://github.com/asdf327697-pixel.png" width="64" alt="asdf327697-pixel"> | **서현**<br>[@asdf327697-pixel](https://github.com/asdf327697-pixel) | 앱 · 화면 디자인 | Android 앱 뼈대와 서버 통신 연결부(ApiClient·DTO), 화면 디자인과 구현: 로그인, 녹음·분석 중, 에피소드·카드 자세히, 4컷만화·쇼츠 보기와 만들기 흐름, 친구·방(초대·방장·댓글·차단), 알림함, 관리자 공지, 글로 만들기·블로그 연결 탭, 내 목소리 녹음, FCM 푸시 |
-| <img src="https://github.com/hjiwon203.png" width="64" alt="hjiwon203"> | **지원**<br>[@hjiwon203](https://github.com/hjiwon203) | 백엔드 · 앱 | 메인 백엔드([LOLog-api](https://github.com/LOLog-2026/LOLog-api))와 인증 서버([LOLog-auth](https://github.com/LOLog-2026/LOLog-auth)) 설계·구현: 카드·만화·쇼츠 작업 큐, 화자 캐릭터·내 목소리, 글·블로그 플랫폼별 연결, 효과음 모음, 친구·방·알림·신고, 이메일·소셜 로그인<br>앱 녹음 서비스·폰 STT·업로드·음성 저장, 실서버 연결과 버전 릴리스, 기능 명세와 API 명세([LOLog-docs](https://github.com/LOLog-2026/LOLog-docs)), 소개 페이지 |
+| <img src="https://github.com/chaeminju.png" width="64" alt="chaeminju"> | **민주**<br>[@chaeminju](https://github.com/chaeminju) | AI · 인프라 | 서버 AI 워커([LOLog-ai](https://github.com/LOLog-2026/LOLog-ai)): 이야기 감지·화자 구분 LLM, 4컷만화 그리기, 쇼츠 영상·립싱크, 대사 TTS·내 목소리, 프로필 캐릭터<br>폰 STT 모델 실험, Jetson 3대와 서비스 서버 배포 |
+| <img src="https://github.com/asdf327697-pixel.png" width="64" alt="asdf327697-pixel"> | **서현**<br>[@asdf327697-pixel](https://github.com/asdf327697-pixel) | 앱 · 화면 디자인 | Android 앱 뼈대와 서버 통신 연결부<br>화면 디자인·구현: 녹음, 에피소드·카드, 4컷만화·쇼츠, 친구·방, 알림함, 관리자, 글·블로그 |
+| <img src="https://github.com/hjiwon203.png" width="64" alt="hjiwon203"> | **지원**<br>[@hjiwon203](https://github.com/hjiwon203) | 백엔드 · 앱 | 메인 백엔드([LOLog-api](https://github.com/LOLog-2026/LOLog-api))와 인증 서버([LOLog-auth](https://github.com/LOLog-2026/LOLog-auth)) 설계·구현<br>앱 녹음·폰 STT·업로드, 앱 릴리스, 기능·API 명세([LOLog-docs](https://github.com/LOLog-2026/LOLog-docs)) |
 
 ## 아키텍처
 
